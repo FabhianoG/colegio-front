@@ -1,0 +1,170 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+:root {
+  --background: #f8fafc;
+  --foreground: #111827;
+
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #ec4899;
+  --secondary-foreground: #111827;
+  --accent: #14b8a6;
+  --accent-foreground: #ffffff;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --surface: #ffffff;
+  --surface-foreground: #0f172a;
+  --border: #cbd5e1;
+
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --danger: #dc2626;
+  --info: #0ea5e9;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b1120;
+    --foreground: #f8fafc;
+
+    --primary: #60a5fa;
+    --primary-foreground: #0f172a;
+    --secondary: #f472b6;
+    --secondary-foreground: #0f172a;
+    --accent: #5eead4;
+    --accent-foreground: #0f172a;
+
+    --muted: #111827;
+    --muted-foreground: #cbd5e1;
+    --surface: #111827;
+    --surface-foreground: #e2e8f0;
+    --border: #334155;
+
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --danger: #f87171;
+    --info: #38bdf8;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+input,
+select,
+textarea {
+  color: var(--background);
+}
+
+h1 {
+  color: var(--primary);
+}
+
+.btn-wire:active {
+  transform: translate(4px, 4px);
+  box-shadow: none !important;
+}
+
+/* ── Estilos para el contenido HTML de lecciones ── */
+.leccion-contenido h1,
+.leccion-contenido h2,
+.leccion-contenido h3,
+.leccion-contenido h4 {
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.leccion-contenido h1 { font-size: 1.5rem; border-bottom: 2px solid #000; padding-bottom: 0.25rem; }
+.leccion-contenido h2 { font-size: 1.25rem; }
+.leccion-contenido h3 { font-size: 1.1rem; }
+.leccion-contenido p  { margin-bottom: 1rem; text-align: justify; }
+.leccion-contenido ul,
+.leccion-contenido ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+.leccion-contenido ul { list-style-type: disc; }
+.leccion-contenido ol { list-style-type: decimal; }
+.leccion-contenido li { margin-bottom: 0.25rem; }
+.leccion-contenido strong { font-weight: 700; color: #000; }
+.leccion-contenido em { font-style: italic; }
+.leccion-contenido a  { text-decoration: underline; }
+.leccion-contenido a:hover { color: #000; }
+.leccion-contenido pre,
+.leccion-contenido code {
+  font-family: 'Courier New', Courier, monospace;
+  background: #1a1a1a;
+  color: #e5e5e5;
+  border-radius: 0;
+  border: 2px solid #000;
+}
+.leccion-contenido pre {
+  padding: 1rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.leccion-contenido code { padding: 0.1em 0.3em; }
+.leccion-contenido pre code { background: none; border: none; padding: 0; }
+.leccion-contenido blockquote {
+  border-left: 4px solid #000;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #4b5563;
+  font-style: italic;
+}
+.leccion-contenido table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+.leccion-contenido th,
+.leccion-contenido td {
+  border: 2px solid #000;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.leccion-contenido th { background: #000; color: #fff; font-weight: 700; text-transform: uppercase; }
+.leccion-contenido tr:nth-child(even) td { background: #f3f4f6; }
+.leccion-contenido img { max-width: 100%; border: 2px solid #000; margin: 0.5rem 0; }
+.leccion-contenido hr { border: none; border-top: 2px dashed #9ca3af; margin: 1.5rem 0; }
+
+/* Custom scrollbar para la lista de secciones */
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-left: 2px solid black;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: black;
+}
