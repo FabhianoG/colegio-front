@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import Boton from '../componentes/Boton'
 import { loginSolicitud } from '../../lib/api/login/auth'
 
@@ -8,6 +9,7 @@ const page = () => {
   const [correo, setCorreo] = useState('')
   const [contrasena, setContrasena] = useState('')
   const [recordar, setRecordar] = useState(false)
+  const [mostrarContrasena, setMostrarContrasena] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
@@ -28,7 +30,6 @@ const page = () => {
 
       console.log('[LOGIN] Respuesta de la API:', response)
 
-      // La API puede devolver los datos en la raíz o dentro de `datos`
       const datos = response.datos ?? response
       const token = (datos as typeof response).token ?? response.token
       const rol = (datos as typeof response).rol ?? response.rol
@@ -51,7 +52,6 @@ const page = () => {
         }),
       )
 
-      // Guardar en cookies para que el middleware pueda leerlas
       const cookieOpts = `path=/; SameSite=Strict${recordar ? '; Max-Age=604800' : ''}`
       document.cookie = `token=${token}; ${cookieOpts}`
       document.cookie = `rol=${rol ?? ''}; ${cookieOpts}`
@@ -61,6 +61,7 @@ const page = () => {
         ROL_PROFESOR: '/gestion-secciones',
         ROL_ADMIN: '/gestion-secciones',
       }
+
       const destino = rutasPorRol[rol ?? ''] ?? '/dashboard-alumno'
 
       console.log('[LOGIN] Rol:', rol, '→ Redirigiendo a:', destino)
@@ -78,13 +79,22 @@ const page = () => {
     <div className="w-full min-h-screen bg-gray-50 overflow-y-auto">
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="w-full bg-white border-4 border-black flex flex-col lg:flex-row shadow-[16px_16px_0_0_rgba(0,0,0,1)] overflow-hidden">
+          
           <div className="w-full lg:w-1/2 bg-gray-200 border-b-4 lg:border-b-0 lg:border-r-4 border-black p-10 flex flex-col justify-center items-center text-center">
-            <div className="w-20 h-20 border-4 border-black flex items-center justify-center font-bold text-4xl bg-white mb-6">
-              L
+            
+            <div className="w-44 h-44 sm:w-52 sm:h-52 bg-white border-4 border-black rounded-full flex items-center justify-center overflow-hidden mb-6 shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
+              <Image
+                src="/images/logo-nsl.webp"
+                alt="Logo I.E. Nuestra Señora de Lourdes"
+                width={220}
+                height={220}
+                priority
+                className="w-full h-full object-contain p-2"
+              />
             </div>
 
             <h1 className="text-3xl font-bold uppercase tracking-widest mb-3 text-[color:var(--primary)]">
-              [ LOGO SISTEMA ]
+              I.E. Nuestra Señora de Lourdes
             </h1>
 
             <p className="text-sm font-bold text-gray-800 uppercase">
@@ -94,14 +104,20 @@ const page = () => {
           </div>
 
           <div className="w-full lg:w-1/2 p-10 bg-white">
-            <h2 className="text-2xl font-bold uppercase mb-2 text-black">Iniciar Sesión</h2>
+            <h2 className="text-2xl font-bold uppercase mb-2 text-black">
+              Iniciar Sesión
+            </h2>
+
             <p className="text-xs font-bold text-gray-700 uppercase mb-8 tracking-widest border-b-2 border-gray-200 pb-4">
               Ingresa tus credenciales para continuar
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6 no-validate">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-black" htmlFor="correo">
+                <label
+                  className="block text-xs font-bold uppercase tracking-widest mb-2 text-black"
+                  htmlFor="correo"
+                >
                   Correo Institucional o Usuario
                 </label>
 
@@ -124,7 +140,10 @@ const page = () => {
 
               <div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                  <label className="block text-xs font-bold uppercase tracking-widest text-black" htmlFor="contrasena">
+                  <label
+                    className="block text-xs font-bold uppercase tracking-widest text-black"
+                    htmlFor="contrasena"
+                  >
                     Contraseña
                   </label>
 
@@ -144,7 +163,7 @@ const page = () => {
                   <input
                     id="contrasena"
                     name="contrasena"
-                    type="password"
+                    type={mostrarContrasena ? 'text' : 'password'}
                     value={contrasena}
                     onChange={(event) => setContrasena(event.target.value)}
                     placeholder="••••••••"
@@ -153,10 +172,11 @@ const page = () => {
 
                   <button
                     type="button"
+                    onClick={() => setMostrarContrasena(!mostrarContrasena)}
                     className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 hover:text-black"
                     title="Mostrar u ocultar contraseña"
                   >
-                    <i className="fa-regular fa-eye"></i>
+                    <i className={mostrarContrasena ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'}></i>
                   </button>
                 </div>
 
@@ -173,6 +193,7 @@ const page = () => {
                   onChange={(event) => setRecordar(event.target.checked)}
                   className="w-4 h-4 accent-black border-2 border-black cursor-pointer"
                 />
+
                 <label
                   htmlFor="recordar"
                   className="text-xs font-bold uppercase cursor-pointer text-black hover:text-gray-700 transition-colors"
@@ -182,11 +203,15 @@ const page = () => {
               </div>
 
               {error ? (
-                <p className="text-sm font-bold uppercase text-red-700">{error}</p>
+                <p className="text-sm font-bold uppercase text-red-700">
+                  {error}
+                </p>
               ) : null}
 
               {success ? (
-                <p className="text-sm font-bold uppercase text-green-700">{success}</p>
+                <p className="text-sm font-bold uppercase text-green-700">
+                  {success}
+                </p>
               ) : null}
 
               <Boton type="submit" variant="wire" size="lg" fullWidth disabled={loading}>
